@@ -244,6 +244,18 @@ def test_curried_ereduce_withPipe():
     assert result == 23
 
 
+def test_esum_with_pipe():
+    """Test esum with piped iterable."""
+    # GIVEN
+    numbers = [1, 2, 3, 4]
+
+    # WHEN
+    result = numbers | esum
+
+    # THEN
+    assert result == 10
+
+
 def test_curried_esum_with_start():
     """Test curried esum (extended sum)."""
     # GIVEN

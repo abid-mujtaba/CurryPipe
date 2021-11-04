@@ -62,9 +62,19 @@ def ereduce(function, iterable=None, initializer=None):
     return MetaCurryPipe(reduce, function, initializer)
 
 
-def esum(*args, **kwargs):
-    if args:
-        if hasattr(args[0], '__iter__'):
-            return sum(*args, **kwargs)
+class ESum:
+    """Class for esum object."""
+    def __call__(self, *args, **kwargs):
+        """esum called as a function."""
+        if args:
+            if hasattr(args[0], '__iter__'):
+                return sum(*args, **kwargs)
 
-    return CurryPipe(sum, *args, **kwargs)
+        return CurryPipe(sum, *args, **kwargs)
+
+    def __ror__(self, iterable):
+        """iterable piped into esum."""
+        return sum(iterable)
+
+
+esum = ESum()
