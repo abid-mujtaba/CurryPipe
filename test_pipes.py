@@ -2,7 +2,7 @@
 
 import pytest
 
-from pipes import efilter, emap
+from pipes import efilter, emap, ereduce
 
 
 def test_emap_currying():
@@ -201,3 +201,17 @@ def test_emap_and_efilter():
 
     with pytest.raises(StopIteration):
         next(odd_squares)
+
+
+def test_curried_ereduce():
+    """Test curried ereduce."""
+    # GIVEN
+    numbers = [1, 2, 3, 4]
+    initial = 13
+    accumulate = ereduce(lambda x, y: x + y, initializer=initial)
+
+    # WHEN
+    result = accumulate(numbers)
+
+    # THEN
+    assert result == 23

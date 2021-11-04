@@ -36,3 +36,11 @@ def efilter(function, iterable=None):
         return filter(function, iterable)
 
     return CurryPipe(filter, function)
+
+
+def ereduce(function, iterable=None, initializer=None):
+    """Extended reduce function that supports currying and pipes."""
+    if iterable:
+        return reduce(function, iterable, initializer)
+
+    return CurryPipe(reduce, function, initializer)
