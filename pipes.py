@@ -34,8 +34,8 @@ class CurryPipe:
     def __call__(self, iterable):
         return self.function(iterable, *self.args, **self.kwargs)
 
-    def __or__(self, iterable):
-        self(iterable)
+    def __ror__(self, iterable):
+        return self(iterable)
 
 
 def emap(function, iterable=None):

@@ -255,3 +255,28 @@ def test_curried_esum():
 
     # THEN
     assert result == 23
+
+
+def test_esum_with_pipe():
+    """Test esum with piped iterable."""
+    # GIVEN
+    numbers = [1, 2, 3, 4]
+
+    # WHEN
+    result = numbers | esum(start=13)
+
+    # THEN
+    assert result == 23
+
+
+def test_curried_esum_with_pipe():
+    """Test curried esum with piped iterable."""
+    # WHEN
+    numbers = [1, 2, 3, 4]
+    add = esum(start=13)
+
+    # WHEN
+    result = numbers | add
+
+    # THEN
+    assert result == 23
