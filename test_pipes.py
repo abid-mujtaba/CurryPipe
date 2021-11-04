@@ -122,3 +122,40 @@ def test_efilter_pipe_with_curry():
     with pytest.raises(StopIteration):
         next(odds)
 
+
+def test_efilter_and_emap():
+    """Test combination of efilter and emap."""
+    # GIVEN
+    numbers = [1, 2, 3, 4, 5, 6]
+
+    # WHEN
+    odd_squares = numbers | emap(lambda x: x*x) | efilter(lambda x: x % 2)
+
+    # THEN
+    assert type(odd_squares) is filter
+
+    assert next(odd_squares) == 1
+    assert next(odd_squares) == 9
+    assert next(odd_squares) == 25
+
+    with pytest.raises(StopIteration):
+        next(odd_squares)
+
+
+def test_emap_and_efilter():
+    """Test combination of emap and efilter."""
+    # GIVEN
+    numbers = [1, 2, 3, 4, 5, 6]
+
+    # WHEN
+    odd_squares = numbers | efilter(lambda x: x % 2) | emap(lambda x: x * x)
+
+    # THEN
+    assert type(odd_squares) is map
+
+    assert next(odd_squares) == 1
+    assert next(odd_squares) == 9
+    assert next(odd_squares) == 25
+
+    with pytest.raises(StopIteration):
+        next(odd_squares)
