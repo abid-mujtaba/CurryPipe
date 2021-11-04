@@ -44,6 +44,26 @@ def test_emap_pipe():
         next(squares)
 
 
+def test_emap_pipe_with_curry():
+    """First create a curried emap and then use it with a pipe."""
+    # GIVEN
+    numbers = [1, 2, 3]
+    square = emap(lambda x: x * x)
+
+    # WHEN
+    squares = numbers | square
+
+    # THEN
+    assert type(squares) is map
+
+    assert next(squares) == 1
+    assert next(squares) == 4
+    assert next(squares) == 9
+
+    with pytest.raises(StopIteration):
+        next(squares)
+
+
 def test_efilter_currying():
     """Test the use of extended-filter (efilter) with currying."""
     # GIVEN
@@ -71,6 +91,26 @@ def test_efilter_pipe():
 
     # WHEN
     odds = numbers | efilter(lambda x: x % 2)
+
+    # THEN
+    assert type(odds) is filter
+
+    assert next(odds) == 1
+    assert next(odds) == 3
+    assert next(odds) == 5
+
+    with pytest.raises(StopIteration):
+        next(odds)
+
+
+def test_efilter_pipe_with_curry():
+    """First created a curried efilter and then use it with a pipe."""
+    # GIVEN
+    numbers = [1, 2, 3, 4, 5, 6]
+    pick_odd = efilter(lambda x: x % 2)
+
+    # WHEN
+    odds = numbers | pick_odd
 
     # THEN
     assert type(odds) is filter
