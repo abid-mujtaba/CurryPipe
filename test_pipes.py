@@ -2,52 +2,7 @@
 
 import pytest
 
-from pipes import PipedIterator, PipedList, PipedTuple
 from pipes import efilter, emap
-
-
-def test_pipes_in_lists():
-    """Test the use of pipes with lists."""
-    # GIVEN
-    numbers = PipedList([1, 2, 3, 4, 5, 6])
-
-    # WHEN
-    odd_squares = numbers | (map, lambda x: x*x) | (filter, lambda x: x % 2)
-
-    # THEN
-    assert odd_squares == [1, 9, 25]
-
-
-def test_pipes_in_generators():
-    """Test the use of pipes with generators."""
-    # GIVEN
-    numbers = PipedIterator([1, 2, 3, 4, 5, 6])
-
-    # WHEN
-    odd_squares = numbers | (map, lambda x: x*x) | (filter, lambda x: x % 2)
-
-    assert next(odd_squares) == 1
-    assert next(odd_squares) == 9
-    assert next(odd_squares) == 25
-
-    with pytest.raises(StopIteration):
-        next(odd_squares)
-
-
-def test_piped_map():
-    """Test the use of pipes with maps."""
-    # GIVEN
-    numbers = [1, 2, 3, 4, 5, 6]
-
-    # WHEN
-    odd_squares = numbers | PipedTuple((map, lambda x: x*x)) | PipedTuple((filter, lambda x: x % 2))
-
-    assert next(odd_squares) == 1
-    assert next(odd_squares) == 9
-    assert next(odd_squares) == 25
-
-    with pytest.raises(StopIteration):
-        next(odd_squares)
 
 
 def test_emap_currying():
