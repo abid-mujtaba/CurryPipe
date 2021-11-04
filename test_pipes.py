@@ -159,3 +159,45 @@ def test_emap_and_efilter():
 
     with pytest.raises(StopIteration):
         next(odd_squares)
+
+
+def test_currried_efilter_and_emap():
+    """Test combination of curried efilter and emap."""
+    # GIVEN
+    numbers = [1, 2, 3, 4, 5, 6]
+    square = emap(lambda x: x * x)
+    pick_odd = efilter(lambda x: x % 2)
+
+    # WHEN
+    odd_squares = numbers | square | pick_odd
+
+    # THEN
+    assert type(odd_squares) is filter
+
+    assert next(odd_squares) == 1
+    assert next(odd_squares) == 9
+    assert next(odd_squares) == 25
+
+    with pytest.raises(StopIteration):
+        next(odd_squares)
+
+
+def test_emap_and_efilter():
+    """Test combination of emap and efilter."""
+    # GIVEN
+    numbers = [1, 2, 3, 4, 5, 6]
+    square = emap(lambda x: x * x)
+    pick_odd = efilter(lambda x: x % 2)
+
+    # WHEN
+    odd_squares = numbers | pick_odd | square
+
+    # THEN
+    assert type(odd_squares) is map
+
+    assert next(odd_squares) == 1
+    assert next(odd_squares) == 9
+    assert next(odd_squares) == 25
+
+    with pytest.raises(StopIteration):
+        next(odd_squares)
