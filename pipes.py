@@ -3,8 +3,8 @@
 from functools import reduce
 
 
-class CurryPipe:
-    """Meta object capable of currying and supporting pipes."""
+class MetaCurryPipe:
+    """Adding currying and piping to meta-functions (functional tools)."""
 
     def __init__(self, meta_function, function, *args, **kwargs):
         """Initialize with the meta_function and the function it will use."""
@@ -22,12 +22,28 @@ class CurryPipe:
         return self(iterable)
 
 
+class CurryPipe:
+    """Adding currying and piping to functions that act over iterables."""
+
+    def __init__(self, function, *args, **kwargs):
+        """Initialize with the function to apply and its args and kwargs."""
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+
+    def __call__(self, iterable):
+        return self.function(iterable, *self.args, **self.kwargs)
+
+    def __or__(self, iterable):
+        self(iterable)
+
+
 def emap(function, iterable=None):
     """Extended map function that supports currying and pipes."""
     if iterable:
         return map(function, iterable)
 
-    return CurryPipe(map, function)
+    return MetaCurryPipe(map, function)
 
 
 def efilter(function, iterable=None):
@@ -35,7 +51,7 @@ def efilter(function, iterable=None):
     if iterable:
         return filter(function, iterable)
 
-    return CurryPipe(filter, function)
+    return MetaCurryPipe(filter, function)
 
 
 def ereduce(function, iterable=None, initializer=None):
@@ -43,4 +59,12 @@ def ereduce(function, iterable=None, initializer=None):
     if iterable:
         return reduce(function, iterable, initializer)
 
-    return CurryPipe(reduce, function, initializer)
+    return MetaCurryPipe(reduce, function, initializer)
+
+
+def esum(*args, **kwargs):
+    if args:
+        if hasattr(args[0], '__iter__'):
+            return sum(*args, **kwargs)
+
+    return CurryPipe(sum, *args, **kwargs)

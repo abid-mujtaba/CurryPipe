@@ -2,7 +2,7 @@
 
 import pytest
 
-from pipes import efilter, emap, ereduce
+from pipes import efilter, emap, ereduce, esum
 
 
 def test_emap_currying():
@@ -239,6 +239,19 @@ def test_curried_ereduce_withPipe():
 
     # WHEN
     result = numbers | accumulate
+
+    # THEN
+    assert result == 23
+
+
+def test_curried_esum():
+    """Test curried esum (extended sum)."""
+    # GIVEN
+    numbers = [1, 2, 3, 4]
+    add = esum(start=13)
+
+    # WHEN
+    result = add(numbers)
 
     # THEN
     assert result == 23
