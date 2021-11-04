@@ -215,3 +215,30 @@ def test_curried_ereduce():
 
     # THEN
     assert result == 23
+
+
+def test_ereduce_with_pipe():
+    """Test use of ereduce with a pipe."""
+    # GIVEN
+    numbers = [1, 2, 3, 4]
+    initial = 13
+
+    # WHEN
+    result = numbers | ereduce(lambda x, y: x + y, initializer=initial)
+
+    # THEN
+    assert result == 23
+
+
+def test_curried_ereduce_withPipe():
+    """Test curried ereduce with a pipe."""
+    # GIVEN
+    numbers = [1, 2, 3, 4]
+    initial = 13
+    accumulate = ereduce(lambda x, y: x + y, initializer=initial)
+
+    # WHEN
+    result = numbers | accumulate
+
+    # THEN
+    assert result == 23
