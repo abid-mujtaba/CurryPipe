@@ -88,10 +88,20 @@ class FunctionCurryPipe(ABC):
 
 
 class ESum(FunctionCurryPipe):
-    """Class for esum object."""
+    """Class for esum objects."""
 
-    def function(cls):
+    def function(self):
         return sum
 
 
 esum = ESum()
+
+
+class ESorted(FunctionCurryPipe):
+    """Class for esorted objects."""
+
+    def function(self):
+        return sorted
+
+
+esorted = ESorted()

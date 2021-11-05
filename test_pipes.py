@@ -2,7 +2,7 @@
 
 import pytest
 
-from pipes import efilter, emap, ereduce, esum
+from pipes import efilter, emap, ereduce, esorted, esum
 
 
 def test_emap_currying():
@@ -292,3 +292,53 @@ def test_curried_esum_with_pipe_with_start():
 
     # THEN
     assert result == 23
+
+
+def test_esorted_with_pipe():
+    """Test esorted with piped iterable."""
+    # GIVEN
+    numbers = [4, 1, 3, 2]
+
+    # WHEN
+    result = numbers | esorted
+
+    # THEN
+    assert result == [1, 2, 3, 4]
+
+
+def test_curried_esorted_with_key():
+    """Test curried esorted (extended sorted) with a key specified."""
+    # GIVEN
+    numbers = [4, 1, 3, 2]
+    reverse_sort = esorted(key=lambda x: -x)
+
+    # WHEN
+    result = reverse_sort(numbers)
+
+    # THEN
+    assert result == [4, 3, 2, 1]
+
+
+def test_esorted_with_pipe_with_key():
+    """Test esorted with piped iterable."""
+    # GIVEN
+    numbers = [4, 1, 3, 2]
+
+    # WHEN
+    result = numbers | esorted(key=lambda x: -x)
+
+    # THEN
+    assert result == [4, 3, 2, 1]
+
+
+def test_curried_esorted_with_pipe_with_key():
+    """Test curried esorted with piped iterable."""
+    # WHEN
+    numbers = [4, 1, 3, 2]
+    reverse_sort = esorted(key=lambda x: -x)
+
+    # WHEN
+    result = numbers | reverse_sort
+
+    # THEN
+    assert result == [4, 3, 2, 1]
