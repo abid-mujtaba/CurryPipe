@@ -1,5 +1,6 @@
 """Implement currying and pipes for functional tools."""
 
+from abc import ABC, abstractmethod
 from functools import reduce
 
 
@@ -20,23 +21,6 @@ class MetaCurryPipe:
     def __ror__(self, iterable):
         """If the object is on the rhs of a pipe call the object on the lhs iterable."""
         return self(iterable)
-
-
-class CurryPipe:
-    """Adding currying and piping to functions that act over iterables."""
-
-    def __init__(self, function, *args, **kwargs):
-        """Initialize with the function to apply and its args and kwargs."""
-        self.function = function
-        self.args = args
-        self.kwargs = kwargs
-
-    def __call__(self, iterable):
-        return self.function(iterable, *self.args, **self.kwargs)
-
-    def __ror__(self, iterable):
-        return self(iterable)
-
 
 def emap(function, iterable=None):
     """Extended map function that supports currying and pipes."""
@@ -62,19 +46,52 @@ def ereduce(function, iterable=None, initializer=None):
     return MetaCurryPipe(reduce, function, initializer)
 
 
-class ESum:
-    """Class for esum object."""
-    def __call__(self, *args, **kwargs):
-        """esum called as a function."""
-        if args:
-            if hasattr(args[0], '__iter__'):
-                return sum(*args, **kwargs)
+class CurryPipe:
+    """Adding currying and piping to functions that act over iterables."""
 
-        return CurryPipe(sum, *args, **kwargs)
+    def __init__(self, function, *args, **kwargs):
+        """Initialize with the function to apply and its args and kwargs."""
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+
+    def __call__(self, iterable):
+        return self.function(iterable, *self.args, **self.kwargs)
 
     def __ror__(self, iterable):
-        """iterable piped into esum."""
-        return sum(iterable)
+        return self(iterable)
+
+
+class FunctionCurryPipe(ABC):
+    """Object capable of acting as a function, being curried, and working with a pipe."""
+
+    @abstractmethod
+    def function(cls):
+        """The core (original) function that acts on iterables."""
+
+    def __call__(self, *args, **kwargs):
+        """Object called as a function."""
+        function = self.function()
+
+        if args:
+            if hasattr(args[0], '__iter__'):  # Original functionality
+                return function(*args, **kwargs)
+
+        return CurryPipe(function, *args, **kwargs)
+
+    def __ror__(self, iterable):
+        """Iterable piped into object."""
+        function = self.function()
+
+        return function(iterable)
+
+
+
+class ESum(FunctionCurryPipe):
+    """Class for esum object."""
+
+    def function(cls):
+        return sum
 
 
 esum = ESum()
