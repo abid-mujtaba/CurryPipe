@@ -209,7 +209,7 @@ def test_curried_ereduce():
     # GIVEN
     numbers = [1, 2, 3, 4]
     initial = 13
-    accumulate = ereduce(lambda x, y: x + y, initializer=initial)
+    accumulate = ereduce(lambda x, y: x + y, initial)
 
     # WHEN
     result = accumulate(numbers)
@@ -225,7 +225,7 @@ def test_ereduce_with_pipe():
     initial = 13
 
     # WHEN
-    result = numbers | ereduce(lambda x, y: x + y, initializer=initial)
+    result = numbers | ereduce(lambda x, y: x + y, initial)
 
     # THEN
     assert result == 23
@@ -236,7 +236,7 @@ def test_curried_ereduce_withPipe():
     # GIVEN
     numbers = [1, 2, 3, 4]
     initial = 13
-    accumulate = ereduce(lambda x, y: x + y, initializer=initial)
+    accumulate = ereduce(lambda x, y: x + y, initial)
 
     # WHEN
     result = numbers | accumulate

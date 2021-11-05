@@ -38,12 +38,12 @@ def efilter(function, iterable=None):
     return MetaCurryPipe(filter, function)
 
 
-def ereduce(function, iterable=None, initializer=None):
+def ereduce(function, *args):
     """Extended reduce function that supports currying and pipes."""
-    if iterable:
-        return reduce(function, iterable, initializer)
+    if args and hasattr(args[0], '__iter__'):
+        return reduce(function, *args)
 
-    return MetaCurryPipe(reduce, function, initializer)
+    return MetaCurryPipe(reduce, function, *args)
 
 
 class CurryPipe:
