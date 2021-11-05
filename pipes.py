@@ -105,3 +105,13 @@ class ESorted(FunctionCurryPipe):
 
 
 esorted = ESorted()
+
+
+class EReversed(FunctionCurryPipe):
+    """Class for ereversed objects."""
+
+    def function(self):
+        return reversed
+
+
+ereversed = EReversed()

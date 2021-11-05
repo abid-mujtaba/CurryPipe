@@ -1,8 +1,9 @@
 """Test the new types in the pipes module."""
 
+from typing import Type
 import pytest
 
-from pipes import efilter, emap, ereduce, esorted, esum
+from pipes import efilter, emap, ereduce, ereversed, esorted, esum
 
 
 def test_emap_currying():
@@ -342,3 +343,31 @@ def test_curried_esorted_with_pipe_with_key():
 
     # THEN
     assert result == [4, 3, 2, 1]
+
+
+def test_ereversed_with_piped_sequence():
+    """Test ereversed with piped sequence."""
+    # GIVEN
+    numbers = [1, 2, 3]
+
+    # WHEN
+    result = numbers | ereversed
+
+    # THEN
+    assert next(result) == 3
+    assert next(result) == 2
+    assert next(result) == 1
+
+    with pytest.raises(StopIteration):
+        next(result)
+
+
+def test_invalid_ereversed_with_piped_generator():
+    """Test that ereversed failed when a generator is piped in."""
+    # GIVEN
+    numbers = (x for x in range(3))
+
+    # THEN
+    with pytest.raises(TypeError, match="'generator' object is not reversible"):
+        # WHEN
+        numbers | ereversed
