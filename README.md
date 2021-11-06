@@ -84,6 +84,10 @@ result = numbers | pick_odd | square | product
 assert result == 225
 ```
 
+This syntax keeps the intent of the original `map`, `filter`, `reduce` while
+providing reusable (curried) transformations and
+a pipe-based syntax which is familiar and more easily grokable.
+
 ### Possible implementation
 
 Replace `map`, `filter`, and `reduce` with a function that
