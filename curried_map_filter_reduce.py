@@ -28,7 +28,9 @@ class PartialBase:
         """Let the meta_function apply the stored function on the iterable."""
         updated_kwargs = {**self.kwargs, **kwargs}
 
-        return self.transformation(self.function, iterable, *self.args, *args, **updated_kwargs)
+        return self.transformation(
+            self.function, iterable, *self.args, *args, **updated_kwargs
+        )
 
     def __ror__(self, iterable):
         """If the object is on the rhs of a pipe call the object on the lhs iterable."""
@@ -36,27 +38,26 @@ class PartialBase:
 
 
 def emap(function, iterable=None):
-    """Extended map function that supports currying and pipes."""
+    """Extend map function to support currying and pipes."""
     if iterable:
         return map(function, iterable)
 
-    class PartialMap(PartialBase):
+    class PartialMap(PartialBase):  # pylint: disable=R0903
         """PartialMap objects are curried and support pipes."""
 
         @property
         def transformation(self):
-            """The transformation to apply to the iterable."""
             return map
 
     return PartialMap(function)
 
 
 def efilter(function, iterable=None):
-    """Extended filter function that supports currying and pipes."""
+    """Extend filter function to support currying and pipes."""
     if iterable:
         return filter(function, iterable)
 
-    class PartialFilter(PartialBase):
+    class PartialFilter(PartialBase):  # pylint: disable=R0903
         """PartialFilter objects are curried and support pipes."""
 
         @property
@@ -67,11 +68,11 @@ def efilter(function, iterable=None):
 
 
 def ereduce(function, *args):
-    """Extended reduce function that supports currying and pipes."""
-    if args and hasattr(args[0], '__iter__'):
+    """Extend reduce function to support currying and pipes."""
+    if args and hasattr(args[0], "__iter__"):
         return reduce(function, *args)
 
-    class PartialReduce(PartialBase):
+    class PartialReduce(PartialBase):  # pylint: disable=R0903
         """PartialReduce objects are curried and support pipes."""
 
         @property
