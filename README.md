@@ -48,10 +48,8 @@ assert result == 225
 
 ### Proposed approach
 
-In the functional programming paradimg this sequence of tranformations is
-often referred to as a transformation pipeline [1][transformation-pipelines].
-
-[transformation-pipelines]: https://freecontent.manning.com/function-pipelines-for-mapping-complex-transformations/
+In the functional programming paradigm this sequence of tranformations is
+often referred to as a transformation pipeline [[1][transformation-pipelines]].
 
 In Unix the successive tranformation of output via a chain of utilities is
 carried out via the pipe (`|`) character.
@@ -102,3 +100,51 @@ and has `__call__` and `__ror__` implemented to support currying and piping.
 Such an implementation is shown in [curried_map_filter_reduce.py](./curried_map_filter_reduce.py)
 with associated [tests](./tests/test_curried_map_filter_reduce.py) showing how
 it can be used.
+
+### Existing approaches
+
+#### `toolz`
+
+The [toolz](https://pypi.org/project/toolz/) library implements
+curried versions of `map`, `filter`, and `reduce and
+a `toolz.compose` function that can compose functions:
+
+``` python
+from toolz import compose
+from toolz.curried import map, filter, reduce
+
+numbers = [1, 2, 3, 4, 5, 6]
+
+pick_odd = filter(lambda x: x % 2)
+square = map(lambda x: x * x)
+product = reduce(lambda x, y: x * y)
+
+transform = compose(product, square, pick_odd)
+
+result = transform(numbers)
+```
+
+Notice the reverse order of invocation in the call to `compose()` which is
+a little counter-intuitive and reduces readability.
+Replacing built-in constructs (`map`, `filter`, `reduce`) with
+the library's versions can lead to confusion.
+
+#### `pipe`
+
+The [pipe](https://pypi.org/project/pipe/) library supports the use of
+the pipe `|` character but it achieves this by implementing
+a large number of new functions:
+
+``` python
+from pipe import select, where
+
+sum(range(100) | select(lambda x: x ** 2) | where(lambda x: x < 100))
+```
+
+The library does have a `map` (an alias for `select`) but
+no explicit `filter` (use `where`) or `reduce`.
+The library provides functionality that goes significantly beyond general usage.
+It's objective is to provide shell-like functionality, for example providing
+`tee`, `tail`, `uniq`, etc.
+
+[transformation-pipelines]: https://freecontent.manning.com/function-pipelines-for-mapping-complex-transformations/
