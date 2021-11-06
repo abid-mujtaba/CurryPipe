@@ -85,3 +85,20 @@ result = numbers | pick_odd | square | product
 
 assert result == 225
 ```
+
+### Possible implementation
+
+Replace `map`, `filter`, and `reduce` with a function that
+returns different objects based on the presence or absence of an iterable in
+the second argument.
+
+If an iterable is passed in the function behaves as is.
+Existing code is left completely unimpacted.
+
+If an iterable is **not** passed in the function returns an object that
+stores the first argument (the transforming function)
+and has `__call__` and `__ror__` implemented to support currying and piping.
+
+Such an implementation is shown in [curried_map_filter_reduce.py](./curried_map_filter_reduce.py)
+with associated [tests](./tests/test_curried_map_filter_reduce.py) showing how
+it can be used.
