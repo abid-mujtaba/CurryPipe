@@ -48,10 +48,10 @@ assert result == 225
 
 ### Proposed approach
 
-In the functional programming paradigm this sequence of tranformations is
+In the functional programming paradigm this sequence of transformations is
 often referred to as a transformation pipeline [[1][transformation-pipelines]].
 
-In Unix the successive tranformation of output via a chain of utilities is
+In Unix the successive transformation of output via a chain of utilities is
 carried out via the pipe (`|`) character.
 
 The proposal is to allow Python to do the same:
@@ -86,7 +86,7 @@ assert result == 225
 
 This syntax keeps the intent of the original `map`, `filter`, `reduce` while
 providing reusable (curried) transformations and
-a pipe-based syntax which is familiar and more easily grokable.
+a pipe-based syntax which is familiar and more easily grokkable.
 
 ### Possible implementation
 

@@ -161,7 +161,7 @@ def test_emap_and_efilter():
         next(odd_squares)
 
 
-def test_currried_efilter_and_emap():
+def test_curried_efilter_and_emap():
     """Test combination of curried efilter and emap."""
     # GIVEN
     numbers = [1, 2, 3, 4, 5, 6]
