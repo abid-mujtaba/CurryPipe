@@ -7,14 +7,15 @@ from functools import reduce
 class PartialBase:
     """Base class for partial transformations that are applied to an iterable."""
 
+    @property
     @abstractmethod
     def transformation(self):
         """
-        Return the transformation to be applied to iterable.
+        Getter for the transformation to be applied to iterable.
 
-        When finally applied to an iterable:
+        When finally applied to an iterable (see definition of __call__):
 
-            self.tranformation()(function, iterable, *args, **kwargs)
+            self.tranformation(function, iterable, *args, **kwargs)
         """
 
     def __init__(self, function, *args, **kwargs):
@@ -25,10 +26,9 @@ class PartialBase:
 
     def __call__(self, iterable, *args, **kwargs):
         """Let the meta_function apply the stored function on the iterable."""
-        transformation = self.transformation()
         updated_kwargs = {**self.kwargs, **kwargs}
 
-        return transformation(self.function, iterable, *self.args, *args, **updated_kwargs)
+        return self.transformation(self.function, iterable, *self.args, *args, **updated_kwargs)
 
     def __ror__(self, iterable):
         """If the object is on the rhs of a pipe call the object on the lhs iterable."""
@@ -43,6 +43,7 @@ def emap(function, iterable=None):
     class PartialMap(PartialBase):
         """PartialMap objects are curried and support pipes."""
 
+        @property
         def transformation(self):
             """The transformation to apply to the iterable."""
             return map
@@ -58,6 +59,7 @@ def efilter(function, iterable=None):
     class PartialFilter(PartialBase):
         """PartialFilter objects are curried and support pipes."""
 
+        @property
         def transformation(self):
             return filter
 
@@ -72,6 +74,7 @@ def ereduce(function, *args):
     class PartialReduce(PartialBase):
         """PartialReduce objects are curried and support pipes."""
 
+        @property
         def transformation(self):
             return reduce
 
