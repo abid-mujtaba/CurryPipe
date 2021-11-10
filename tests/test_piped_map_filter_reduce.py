@@ -1,12 +1,12 @@
-"""Test the curried versions of map, filter, reduce."""
+"""Test the piped versions of map, filter, reduce."""
 
 import pytest
 
-from curried_map_filter_reduce import emap, efilter, ereduce
+from piped_map_filter_reduce import emap, efilter, ereduce
 
 
-def test_emap_currying():
-    """Test the use of the extended-map (emap) function for currying."""
+def test_emap_partial_application():
+    """Test the use of the extended-map (emap) function for partial application."""
     # GIVEN
     numbers = [1, 2, 3]
     square = emap(lambda x: x * x)
@@ -44,8 +44,8 @@ def test_emap_pipe():
         next(squares)
 
 
-def test_emap_pipe_with_curry():
-    """First create a curried emap and then use it with a pipe."""
+def test_emap_pipe_with_partial_application():
+    """First create a partially applied emap and then use it with a pipe."""
     # GIVEN
     numbers = [1, 2, 3]
     square = emap(lambda x: x * x)
@@ -64,8 +64,8 @@ def test_emap_pipe_with_curry():
         next(squares)
 
 
-def test_efilter_currying():
-    """Test the use of extended-filter (efilter) with currying."""
+def test_efilter_partial_application():
+    """Test the use of extended-filter (efilter) with partial application."""
     # GIVEN
     numbers = [1, 2, 3, 4, 5, 6]
     pick_odd = efilter(lambda x: x % 2)
@@ -103,8 +103,8 @@ def test_efilter_pipe():
         next(odds)
 
 
-def test_efilter_pipe_with_curry():
-    """First created a curried efilter and then use it with a pipe."""
+def test_efilter_pipe_with_partial_application():
+    """First created a partially applied efilter and then use it with a pipe."""
     # GIVEN
     numbers = [1, 2, 3, 4, 5, 6]
     pick_odd = efilter(lambda x: x % 2)
@@ -161,8 +161,8 @@ def test_emap_and_efilter():
         next(odd_squares)
 
 
-def test_curried_efilter_and_emap():
-    """Test combination of curried efilter and emap."""
+def test_partially_applied_efilter_and_emap():
+    """Test combination of partial appliied efilter and emap."""
     # GIVEN
     numbers = [1, 2, 3, 4, 5, 6]
     square = emap(lambda x: x * x)
@@ -203,8 +203,8 @@ def test_emap_and_efilter():
         next(odd_squares)
 
 
-def test_curried_ereduce():
-    """Test curried ereduce."""
+def test_partially_applied_ereduce():
+    """Test partially applied ereduce."""
     # GIVEN
     numbers = [1, 2, 3, 4]
     initial = 13
@@ -230,8 +230,8 @@ def test_ereduce_with_pipe():
     assert result == 23
 
 
-def test_curried_ereduce_withPipe():
-    """Test curried ereduce with a pipe."""
+def test_partially_applied_ereduce_withPipe():
+    """Test partially applied ereduce with a pipe."""
     # GIVEN
     numbers = [1, 2, 3, 4]
     initial = 13

@@ -1,4 +1,4 @@
-"""Curried versions of map, filter, and reduce."""
+"""Versions of map, filter, and reduce that support partial application and piping."""
 
 from abc import abstractmethod
 from functools import reduce
@@ -38,12 +38,12 @@ class PartialBase:
 
 
 def emap(function, iterable=None):
-    """Extend map function to support currying and pipes."""
+    """Extend map function to support partial application and pipes."""
     if iterable:
         return map(function, iterable)
 
     class PartialMap(PartialBase):  # pylint: disable=R0903
-        """PartialMap objects are curried and support pipes."""
+        """PartialMap objects are partially applied and support pipes."""
 
         @property
         def transformation(self):
@@ -53,12 +53,12 @@ def emap(function, iterable=None):
 
 
 def efilter(function, iterable=None):
-    """Extend filter function to support currying and pipes."""
+    """Extend filter function to support partial application and pipes."""
     if iterable:
         return filter(function, iterable)
 
     class PartialFilter(PartialBase):  # pylint: disable=R0903
-        """PartialFilter objects are curried and support pipes."""
+        """PartialFilter objects are partially applied and support pipes."""
 
         @property
         def transformation(self):
@@ -68,12 +68,12 @@ def efilter(function, iterable=None):
 
 
 def ereduce(function, *args):
-    """Extend reduce function to support currying and pipes."""
+    """Extend reduce function to support partial application and pipes."""
     if args and hasattr(args[0], "__iter__"):
         return reduce(function, *args)
 
     class PartialReduce(PartialBase):  # pylint: disable=R0903
-        """PartialReduce objects are curried and support pipes."""
+        """PartialReduce objects are partially applied and support pipes."""
 
         @property
         def transformation(self):
