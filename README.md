@@ -152,3 +152,59 @@ It's objective is to provide shell-like functionality, for example providing
 `tee`, `tail`, `uniq`, etc.
 
 [transformation-pipelines]: https://freecontent.manning.com/function-pipelines-for-mapping-complex-transformations/
+
+## Nice to have: Piped `sorted`, `reversed`, and `sum`
+
+In addition to `map`, `filter`, and `reduce`, which
+take a transforming function to apply to the iterable, we have
+a number of functions that are applied directly to iterables to transform them,
+for example,
+`sorted`, `reversed`, and `sum`.
+
+For similar reasons of readability, expressivity, and existing paradigms,
+it would be nice if `sorted`, `reversed`, and `sum` also support pipes.
+
+### Proposed approach
+
+``` python
+numbers = [4, 1, 3, 2]
+
+sorted_numbers = numbers | sorted(lambda x: -x)
+
+assert sorted_numbers = [4, 3, 2, 1]
+```
+
+Or with partial application:
+
+``` python
+numbers = [4, 1, 3, 2]
+sorter = sorted(lambda x: -x)
+
+sorted_numbers = numbers | sorter
+
+assert sorted_numbers = [4, 3, 2, 1]
+```
+
+Similarly for `reversed`, and `sum` and `sum(start=42)`.
+
+### Possible Implementation
+
+Replace `sorted`, `reversed`, and `sum` with objects that
+behave differently based on the presence or absence of
+an iterable in the first argument.
+
+If the object is called with a first argument that is an iterable
+the objects exhibit the original behavior.
+
+If the object is called with arguments where the first one is **not** an iterable,
+return a *new* object which is partially applied and
+supports both being called (via `__call__`) and
+appearing on the right-hand side of a pipe (via `__ror__`).
+
+If the object appears without any arguments on the right-hand-side of an pipe,
+apply the transformation to the iterable (via `__ror__`).
+
+Such an implementation is shown in
+[piped_sorted_reversed_sum.py](./piped_sorted_reversd.py)
+with associated [tests](./tests/test_piped_sorted_reversed.py) showing
+how it can be used.
