@@ -205,6 +205,6 @@ If the object appears without any arguments on the right-hand-side of an pipe,
 apply the transformation to the iterable (via `__ror__`).
 
 Such an implementation is shown in
-[piped_sorted_reversed_sum.py](./piped_sorted_reversd.py)
+[piped_sorted_reversed_sum.py](./piped_sorted_reversed.py)
 with associated [tests](./tests/test_piped_sorted_reversed.py) showing
 how it can be used.

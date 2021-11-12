@@ -162,7 +162,7 @@ def test_emap_and_efilter():
 
 
 def test_partially_applied_efilter_and_emap():
-    """Test combination of partial appliied efilter and emap."""
+    """Test combination of partial applied efilter and emap."""
     # GIVEN
     numbers = [1, 2, 3, 4, 5, 6]
     square = emap(lambda x: x * x)
