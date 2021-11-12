@@ -3,8 +3,8 @@
 from abc import ABC, abstractmethod
 
 
-class CurryPipe:
-    """Adding currying and piping to functions that act over iterables."""
+class PartialPipe:
+    """Adding partial application and piping to functions that act over iterables."""
 
     def __init__(self, function, *args, **kwargs):
         """Initialize with the function to apply and its args and kwargs."""
@@ -19,8 +19,8 @@ class CurryPipe:
         return self(iterable)
 
 
-class FunctionCurryPipe(ABC):
-    """Object capable of acting as a function, being curried, and working with a pipe."""
+class FunctionPartialPipe(ABC):
+    """Act as a function, allow partially application, and piping."""
 
     @abstractmethod
     def function(cls):
@@ -34,7 +34,7 @@ class FunctionCurryPipe(ABC):
             if hasattr(args[0], '__iter__'):  # Original functionality
                 return function(*args, **kwargs)
 
-        return CurryPipe(function, *args, **kwargs)
+        return PartialPipe(function, *args, **kwargs)
 
     def __ror__(self, iterable):
         """Iterable piped into object."""
@@ -44,7 +44,7 @@ class FunctionCurryPipe(ABC):
 
 
 
-class ESum(FunctionCurryPipe):
+class ESum(FunctionPartialPipe):
     """Class for esum objects."""
 
     def function(self):
@@ -54,7 +54,7 @@ class ESum(FunctionCurryPipe):
 esum = ESum()
 
 
-class ESorted(FunctionCurryPipe):
+class ESorted(FunctionPartialPipe):
     """Class for esorted objects."""
 
     def function(self):
@@ -64,7 +64,7 @@ class ESorted(FunctionCurryPipe):
 esorted = ESorted()
 
 
-class EReversed(FunctionCurryPipe):
+class EReversed(FunctionPartialPipe):
     """Class for ereversed objects."""
 
     def function(self):
