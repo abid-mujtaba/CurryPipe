@@ -12,8 +12,9 @@ class PartialPipe:
         self.args = args
         self.kwargs = kwargs
 
-    def __call__(self, iterable):
-        return self.function(iterable, *self.args, **self.kwargs)
+    def __call__(self, iterable, *args, **kwargs):
+        updated_kwargs = {**self.kwargs, **kwargs}
+        return self.function(iterable, *self.args, *args, **updated_kwargs)
 
     def __ror__(self, iterable):
         return self(iterable)
