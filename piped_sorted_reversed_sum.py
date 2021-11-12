@@ -20,33 +20,31 @@ class PartialPipe:
 
 
 class FunctionPartialPipe(ABC):
-    """Act as a function, allow partially application, and piping."""
+    """Act as a function, allow partial application, and piping."""
 
+    @property
     @abstractmethod
     def function(cls):
         """The core (original) function that acts on iterables."""
 
     def __call__(self, *args, **kwargs):
         """Object called as a function."""
-        function = self.function()
-
         if args:
             if hasattr(args[0], '__iter__'):  # Original functionality
-                return function(*args, **kwargs)
+                return self.function(*args, **kwargs)
 
-        return PartialPipe(function, *args, **kwargs)
+        return PartialPipe(self.function, *args, **kwargs)
 
     def __ror__(self, iterable):
         """Iterable piped into object."""
-        function = self.function()
-
-        return function(iterable)
+        return self.function(iterable)
 
 
 
 class ESum(FunctionPartialPipe):
     """Class for esum objects."""
 
+    @property
     def function(self):
         return sum
 
@@ -57,6 +55,7 @@ esum = ESum()
 class ESorted(FunctionPartialPipe):
     """Class for esorted objects."""
 
+    @property
     def function(self):
         return sorted
 
@@ -67,6 +66,7 @@ esorted = ESorted()
 class EReversed(FunctionPartialPipe):
     """Class for ereversed objects."""
 
+    @property
     def function(self):
         return reversed
 
