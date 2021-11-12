@@ -66,8 +66,8 @@ result = numbers | filter(lambda x: x % 2) | map(lambda x: x * x) | reduce(lambd
 assert result == 225
 ```
 
-Since this essentially assumes that `filter`, `map`, and `reduce` can be curried
-(the `reduce` use case is strictly currying from both ends)
+Since this essentially assumes that `filter`, `map`, and `reduce` can be
+partially applied (the `reduce` use case is strictly partial application from both ends)
 an alternate and more readable implementation would be:
 
 ``` python
@@ -85,7 +85,7 @@ assert result == 225
 ```
 
 This syntax keeps the intent of the original `map`, `filter`, `reduce` while
-providing reusable (curried) transformations and
+providing reusable (partially applied) transformations and
 a pipe-based syntax which is familiar and more easily grokkable.
 
 ### Possible implementation
@@ -99,10 +99,10 @@ Existing code is left completely unimpacted.
 
 If an iterable is **not** passed in the function returns an object that
 stores the first argument (the transforming function)
-and has `__call__` and `__ror__` implemented to support currying and piping.
+and has `__call__` and `__ror__` implemented to support partial application and piping.
 
-Such an implementation is shown in [curried_map_filter_reduce.py](./curried_map_filter_reduce.py)
-with associated [tests](./tests/test_curried_map_filter_reduce.py) showing how
+Such an implementation is shown in [piped_map_filter_reduce.py](./piped_map_filter_reduce.py)
+with associated [tests](./tests/test_piped_map_filter_reduce.py) showing how
 it can be used.
 
 ### Existing approaches
@@ -110,7 +110,7 @@ it can be used.
 #### `toolz`
 
 The [toolz](https://pypi.org/project/toolz/) library implements
-curried versions of `map`, `filter`, and `reduce and
+curried versions of `map`, `filter`, and `reduce` and
 a `toolz.compose` function that can compose functions:
 
 ``` python
