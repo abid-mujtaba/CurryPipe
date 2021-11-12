@@ -17,8 +17,8 @@ def test_esum_with_pipe():
     assert result == 10
 
 
-def test_curried_esum_with_start():
-    """Test curried esum (extended sum)."""
+def test_partially_applied_esum_with_start():
+    """Test partially applied esum (extended sum)."""
     # GIVEN
     numbers = [1, 2, 3, 4]
     add = esum(start=13)
@@ -42,8 +42,8 @@ def test_esum_with_pipe_with_start():
     assert result == 23
 
 
-def test_curried_esum_with_pipe_with_start():
-    """Test curried esum with piped iterable."""
+def test_partially_applied_esum_with_pipe_with_start():
+    """Test partially applied esum with piped iterable."""
     # WHEN
     numbers = [1, 2, 3, 4]
     add = esum(start=13)
@@ -67,8 +67,8 @@ def test_esorted_with_pipe():
     assert result == [1, 2, 3, 4]
 
 
-def test_curried_esorted_with_key():
-    """Test curried esorted (extended sorted) with a key specified."""
+def test_partially_applied_esorted_with_key():
+    """Test partially applied esorted (extended sorted) with a key specified."""
     # GIVEN
     numbers = [4, 1, 3, 2]
     reverse_sort = esorted(key=lambda x: -x)
@@ -92,8 +92,8 @@ def test_esorted_with_pipe_with_key():
     assert result == [4, 3, 2, 1]
 
 
-def test_curried_esorted_with_pipe_with_key():
-    """Test curried esorted with piped iterable."""
+def test_partially_applied_esorted_with_pipe_with_key():
+    """Test partially applied esorted with piped iterable."""
     # WHEN
     numbers = [4, 1, 3, 2]
     reverse_sort = esorted(key=lambda x: -x)
