@@ -12,7 +12,7 @@ Let us consider a toy example.
 1. Convert the remaining numbers to their squares.
 1. Multiply all of the numbers together.
 
-### Current Approach
+## Current Approach
 
 If done in one go:
 
@@ -46,7 +46,7 @@ result = reduce(lambda x, y: x * y, squared_numbers, 1)
 assert result == 225
 ```
 
-### Proposed approach
+## Proposed approach
 
 In the functional programming paradigm this sequence of transformations is
 often referred to as a transformation pipeline [[1][transformation-pipelines]].
@@ -94,7 +94,7 @@ Replace `map`, `filter`, and `reduce` with a function that
 returns different objects based on the presence or absence of an iterable in
 the second argument.
 
-If an iterable is passed in the function behaves as is.
+If an iterable is passed in the function behaves **as is**.
 Existing code is left completely unimpacted.
 
 If an iterable is **not** passed in the function returns an object that
